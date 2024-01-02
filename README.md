@@ -16,11 +16,68 @@
 - M(모델, 정보 데이터를 담음)
 - V(뷰, 사용자 인터페이스)
 - C(컨트롤러, 사용자 인터페이스와 데이터 사이의 다리)
-- 
+
+* MVC 패턴은 디자인 패턴중에 하나이다.
+* 유지보수에 용이한 패턴이다.
+
+- 사용자의 Request을 Controller가 받는다. Controller는 Service에서 비즈니스 로직처리 후 Model에 담는다.
+- 모델에 저장된 데이터를 바탕으로 View를 제어하여 사용자에게 전달한다.
+
 
 ## 스프링에서 의존성 주입(DI) 방법 3가지 방법
-- @Reque
+- 생성자 주입 - 클래스 생성자에 @Autowired 사용
+- 단일 생성자면 생략 가능함.
+~~~java
+class SomeController {
+	private final SomeRepository someRepository;
+    
+    @Autowired
+    public SomeController(SomeRepository someRepository) {
+    	this.someRepository = someRepository;
+    }
+}
+~~~
+
+- 필드 주입 - 필드에 @Autowired 사용
+~~~java
+class SomeController {
+	@Autowired
+    private final SomeRepository someRepository;
+}
+~~~
+
+- 수정자 주입 - Setter 매서드에 @Autowired 사용
+~~~java
+class SomeController {
+    private final SomeRepository someRepository;
+    
+    @Autowired
+    public void setSomeRepository(SomeRepository someRepository) {
+    	this.someRepository = someRepository;
+    }
+}
+~~~
 
 ## JPA의 장점과 단점
+### - 장점
+ - Hibernate는 SQL을 직접 사용하지 않고, 매서드 호출만으로 쿼리를 수행한다.
+ 그러므로 생산성이 올라간다는 장점이 있다.
+ - 특정 DB에 종속되지 않아 얼마든지 DB를 변경할 수 있다.
+
+### - 단점
+- 복잡한 쿼리를 사용할 경우에는 특정 DB에 종속된다.
+- 자동으로 생성되는 쿼리가 많아 성능이 저하되기도 한다.
+- 익히는데 필요한 학습시간이 많이 필요하다.
+
+
 
 ## HTTP GET 요청과 POST 요청의 차이
+### - GET 요청
+- 서버의 리소스에서 데이터를 요청할 때 사용한다. (SELECT 비슷)
+- 요청을 전송할 때 데이터를 Body에 담지않고 쿼리스트링을 통해 전송한다.
+- js,css 같은 정적 컨텐츠 데이터처럼 크기가 크다면 브라우저는 요청을 캐시해두고 불러올때마다 캐시된 데이터를 사용한다.
+
+### - POST 요청
+- 서버의 리소스를 생성 또는 업데이트할 때 사용 된다. (CREATE 비슷)
+- 리소스를 생성, 변경하기위해 설계되었다.
+- 요청을 전송할 때 Body에 담아서 전송한다. HTTP의 Body는 길이 제한이 없어서 대용량 데이터를 전송할 수 있다.
