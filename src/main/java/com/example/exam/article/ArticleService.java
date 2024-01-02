@@ -23,7 +23,7 @@ public class ArticleService {
         article.setCreateDate(LocalDateTime.now());
         this.articleRepository.save(article);
     }
-    public Article detail (int id){
+    public Article detail (Integer id){
         return this.articleRepository.getById(id);
     }
 }
