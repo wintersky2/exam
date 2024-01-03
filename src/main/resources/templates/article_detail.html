@@ -1,4 +1,6 @@
 <h3 th:text="${article.subject}"></h3>
 <div th:text="${article.content}"></div>
 <div th:text="${article.createDate}"></div>
-<a href="/article/list">목록</a>
+<form action="/article/list" method="get">
+    <input type="submit" value="목록">
+</form>
